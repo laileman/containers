@@ -13,7 +13,7 @@ services:
       - ./data:/var/lib/postgresql/data
     networks:
         local:
-          ipv4_address: 192.168.100.203
+          ipv4_address: 192.168.100.204
 
 networks:
   local:
