@@ -1,5 +1,5 @@
 services:
-  mysql:
+  postgres:
     image: postgres
     container_name: postgres
     restart: always
@@ -7,8 +7,8 @@ services:
       POSTGRES_PASSWORD: 123456
       POSTGRES_DATABASE: test
       POSTGRES_USER: test
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql/data
     networks:
