@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: lark-webhook
+  namespace: argo
+spec:
+  entrypoint: send
+  arguments:
+    parameters:
+      - name: url
+        value: "https://di423hwrl1.execute-api.us-east-1.amazonaws.com/default/lastwar-infra-container?group=leman0"
+      - name: content
+        value: "from request leman0"
+      - name: res_url
+        value: "https://open.feishu.cn/open-apis/bot/v2/hook/0a1124c5-bd46-4c22-99bd-c00fe1af3f69"
+      - name: message
+        value: "from response leman0"
+  templates:
+  - name: send
+    steps:
+      - - name: call-http
+          template: http
+          arguments:
+            parameters:
+              - name: url
+                value: "{{workflow.parameters.url}}"
+              - name: content
+                value: "{{workflow.parameters.content}}"
+              - name: res_url
+                value: "{{workflow.parameters.res_url}}"
+              - name: message
+                value: "{{workflow.parameters.message}}"
+        # 输出响应
+
+  - name: http
+    inputs:
+      parameters:
+        - name: url
+        - name: content
+        - name: res_url
+        - name: message
+    outputs:
+      parameters:
+        - name: response-body
+          valueFrom:
+            parameter: "{{response.body}}"
+    http:
+      timeoutSeconds: 20
+      url: "{{inputs.parameters.url}}"
+      method: "POST"
+      body: |
+        {
+           "content": "{{inputs.parameters.content}}"
+        }
+      headers:
+        - name: "Content-Type"
+          value: "application/json"
+        - name: "Authorization"
+          value: "api-key fseefPyjxza47O5lD4kFi68SzP3xC5ej9I9OplCZ"
+      successCondition: "response.headers.Connection[0] == 'keep-alive'"
+

@@ -1,0 +1,6 @@
+resources:
+  - namespace.yml
+  - quick-start-minimal.yaml
+  - ingress.yml
+
+namespace: argo

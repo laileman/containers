@@ -1,0 +1,51 @@
+
+apiVersion: k3d.io/v1alpha3 # this will change in the future as we make everything more stable
+kind: Simple # internally, we also have a Cluster config, which is not yet available externally
+name: k3d-local # name that you want to give to your cluster (will still be prefixed with `k3d-`)
+servers: 1 # same as `--servers 1`
+agents: 2 # same as `--agents 2`
+ # same as `--image rancher/k3s:v1.20.4-k3s1`
+network: local # same as `--network my-custom-net`
+
+registries: # define how registries should be created or used
+ # some other k3d-managed registry; same as `--registry-use 'k3d-myotherregistry:5000'`
+  config: | # define contents of the `registries.yaml` file (or reference a file); same as `--registry-config /path/to/config.yaml`
+    mirrors:
+      "docker.io":
+        endpoint:
+          - https://registry.linkease.net:5443
+      "quay.io":
+        endpoint:
+          - https://registry.linkease.net:5443
+      "ghcr.io":
+        endpoint:
+          - https://registry.linkease.net:5443
+      "registry.k8s.io":
+        endpoint:
+          - https://registry.linkease.net:5443
+      "gcr.io":
+        endpoint:
+          - https://registry.linkease.net:5443
+      "k8s.gcr.io":
+        endpoint:
+          - https://registry.linkease.net:5443
+options:
+  k3d: # k3d runtime settings
+    disableLoadbalancer: true # same as `--no-lb`
+    disableImageVolume: false # same as `--no-image-volume`
+    disableRollback: false # same as `--no-Rollback`
+
+  k3s: # options passed on to K3s itself
+    extraArgs: # additional arguments passed to the `k3s server|agent` command; same as `--k3s-arg`
+      - arg: --disable=servicelb
+        nodeFilters:
+          - server:*
+      - arg: --node-name=master-1
+        nodeFilters:
+          - server:0
+      - arg: --node-name=worker-1
+        nodeFilters:
+          - agent:0
+      - arg: --node-name=worker-2
+        nodeFilters:
+          - agent:1
