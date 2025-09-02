@@ -1,0 +1,19 @@
+services:
+  coredns:
+    container_name: coredns
+    image: coredns/coredns
+    restart: always
+    # ports:
+    # - 53:53/udp
+    # - 53:53/tcp
+    volumes:
+    - ./Corefile:/Corefile
+    - ./local.zone:/local.zone
+    - ./cluster.zone:/cluster.zone
+    command: -conf /Corefile
+    networks:
+      local:
+        ipv4_address: 192.168.100.200
+networks:
+  local:
+    external: true

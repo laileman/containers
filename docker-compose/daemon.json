@@ -1,0 +1,16 @@
+{
+  "registry-mirrors": [
+    "https://docker.credclouds.com",
+    "https://k8s.credclouds.com",
+    "https://quay.credclouds.com",
+    "https://gcr.credclouds.com",
+    "https://k8s-gcr.credclouds.com",
+    "https://ghcr.credclouds.com",
+    "https://do.nark.eu.org",
+    "https://docker.m.daocloud.io",
+    "https://docker.nju.edu.cn",
+    "https://docker.mirrors.sjtug.sjtu.edu.cn",
+    "https://docker.1panel.live",
+    "https://docker.rainbond.cc"
+  ]
+}

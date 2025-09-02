@@ -1,0 +1,15 @@
+services:
+  kspeeder:
+    image: linkease/kspeeder
+    container_name: kspeeder
+    restart: unless-stopped
+    volumes:
+    - ./data:/kspeeder-data
+    - ./config:/kspeeder-config
+    networks:
+      local:
+        ipv4_address: 192.168.100.202
+
+networks:
+  local:
+    external: true

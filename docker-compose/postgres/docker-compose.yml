@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DATABASE: test
+      POSTGRES_USER: test
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+        local:
+          ipv4_address: 192.168.100.203
+
+networks:
+  local:
+    external: true

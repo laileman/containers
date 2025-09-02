@@ -1,0 +1,31 @@
+services:
+  nginx:
+    # 使用官方 Nginx 镜像，这里使用最新稳定版
+    image: nginx:stable-alpine
+    # 容器名称
+    container_name: nginx
+    # 重启策略：总是重启，除非手动停止
+    restart: always
+    # 端口映射：主机端口:容器端口
+    # ports:
+    #   - "9080:80"    # HTTP 端口
+    #   - "10443:443"  # HTTPS 端口（如果需要）
+    # 目录挂载
+    volumes:
+      # 挂载自定义 Nginx 配置文件
+      - ./conf.d:/etc/nginx/conf.d
+      # 挂载静态网站文件
+      - ./html:/usr/share/nginx/html
+      # 挂载 SSL 证书（如果需要 HTTPS）
+      # - ./nginx/ssl:/etc/nginx/ssl
+      # # 挂载日志目录
+      # - ./logs:/var/log/nginx
+    # 网络设置（可选）
+    networks:
+      local:
+        ipv4_address: 192.168.100.201
+
+# 定义网络（可选）
+networks:
+  local:
+    external: true

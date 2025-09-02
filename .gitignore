@@ -5,6 +5,7 @@
 */.DS_Store
 */*/.DS_Store
 */docker-compose/*/data
+docker-compose/*/data
 */docker-compose/*/data/*
 */docker-compose/*/logs/*
 */docker-compose/*/tmp/*
