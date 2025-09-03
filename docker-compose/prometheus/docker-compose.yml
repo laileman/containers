@@ -6,7 +6,7 @@ services:
     - 9090:9090
     volumes:
     - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    - ./file.yml:/etc/prometheus/file.yml
+    - ./files:/etc/prometheus/files
     - ./data:/prometheus
     - ./rules:/etc/prometheus/rules
     networks:

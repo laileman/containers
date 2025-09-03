@@ -1,0 +1,2 @@
+
+GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=alertmanager,prometheus,timescale,zipkin

@@ -1,0 +1,17 @@
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: always
+    volumes:
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - ./provisioning:/etc/grafana/provisioning
+    env_file:
+      - ./env
+    networks:
+      local:
+        ipv4_address: 192.168.100.207
+
+networks:
+  local:
+    external: true
