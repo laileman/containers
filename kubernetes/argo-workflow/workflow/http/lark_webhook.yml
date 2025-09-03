@@ -8,13 +8,15 @@ spec:
   arguments:
     parameters:
       - name: url
-        value: "https://di423hwrl1.execute-api.us-east-1.amazonaws.com/default/lastwar-infra-container?group=leman0"
+        value: ""
       - name: content
         value: "from request leman0"
       - name: res_url
-        value: "https://open.feishu.cn/open-apis/bot/v2/hook/0a1124c5-bd46-4c22-99bd-c00fe1af3f69"
+        value: ""
       - name: message
         value: "from response leman0"
+      - name: api-key
+        value: ""
   templates:
   - name: send
     steps:
@@ -30,6 +32,8 @@ spec:
                 value: "{{workflow.parameters.res_url}}"
               - name: message
                 value: "{{workflow.parameters.message}}"
+              - name: api-key
+                value: "{{workflow.parameters.api-key}}"
         # 输出响应
 
   - name: http
@@ -56,6 +60,6 @@ spec:
         - name: "Content-Type"
           value: "application/json"
         - name: "Authorization"
-          value: "api-key fseefPyjxza47O5lD4kFi68SzP3xC5ej9I9OplCZ"
-      successCondition: "response.headers.Connection[0] == 'keep-alive'"
+          value: "api-key {{inputs.parameters.api-key}}"
+      successCondition: "response.statusCode == 200"
 
