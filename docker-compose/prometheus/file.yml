@@ -3,3 +3,8 @@
   labels:
     env: dev
     container: prometheus
+- targets:
+  - 192.168.100.206:9093
+  labels:
+    env: dev
+    container: alertmanager

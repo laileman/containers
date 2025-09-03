@@ -1,0 +1,17 @@
+services:
+  prometheus:
+    container_name: alertmanager
+    image: prom/alertmanager
+    # ports:
+    # - 9093:9093
+    volumes:
+    - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      local:
+        ipv4_address: 192.168.100.206
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+
+networks:
+  local:
+    external: true

@@ -1,0 +1,26 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: feishu-basic
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 10s
+  routes:
+    - receiver: feishu-basic
+      match_re:
+        severity: 'page'
+
+receivers:
+  - name: 'feishu-basic'
+    webhook_configs:
+      - url: ''
+        send_resolved: true
+        http_config:
+          authorization: 
+            type: 'api-key'
+            credentials: 'xxxxxx'
+    
+        
+

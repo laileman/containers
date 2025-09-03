@@ -8,8 +8,18 @@ global:
   label_name_length_limit: 0
   label_value_length_limit: 0
   target_limit: 0
+rule_files:
+  - rules/*.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - "192.168.100.206:9093"
+    
 scrape_configs:
   - job_name: prometheus
     file_sd_configs:
-      - files:
+      - refresh_interval: 10s
+        files:
         - file.yml

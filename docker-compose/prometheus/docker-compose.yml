@@ -8,6 +8,7 @@ services:
     - ./prometheus.yml:/etc/prometheus/prometheus.yml
     - ./file.yml:/etc/prometheus/file.yml
     - ./data:/prometheus
+    - ./rules:/etc/prometheus/rules
     networks:
       local:
         ipv4_address: 192.168.100.205
