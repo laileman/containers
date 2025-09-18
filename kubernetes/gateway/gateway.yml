@@ -14,7 +14,8 @@ spec:
   gatewayClassName: envoy-gateway
   # addresses:
   #   # 配置 LoadBalancer 类型地址，让控制器分配外部可访问 IP
-  #   - type: LoadBalancer
+  # # - type: IPAddress
+  # #   value: 192.168.100.110
   listeners:
     - name: http
       protocol: HTTP
