@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: envoy-gateway
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy-gateway
+  namespace: envoy-gateway-system # 明确 Gateway 所在命名空间
+spec:
+  gatewayClassName: envoy-gateway
+  # addresses:
+  #   # 配置 LoadBalancer 类型地址，让控制器分配外部可访问 IP
+  #   - type: LoadBalancer
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      # 可选：添加允许访问的来源（默认允许所有）
+      allowedRoutes:
+        namespaces:
+          from: All # 允许所有命名空间的 HTTPRoute 绑定到该 Gateway
