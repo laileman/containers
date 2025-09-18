@@ -1,0 +1,16 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:debug-v1.32-latest
+    container_name: envoy
+    # ports:
+    #   - 8080:8080
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
+    networks:
+      local:
+        ipv4_address: 192.168.100.208
+
+networks:
+  local:
+    external: true
+

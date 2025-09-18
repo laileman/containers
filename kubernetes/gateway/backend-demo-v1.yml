@@ -1,0 +1,88 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-demo-v1
+  labels:
+    app: backend-demo-v1
+data:
+  conf.yml: |
+    app_name: backend_demo_v1
+    host: 0.0.0.0
+    port: 8000
+    app_version: 1.0.0
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-demo-v1
+  labels:
+    app: backend-demo-v1
+spec:
+  selector:
+    matchLabels:
+      app: backend-demo-v1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: backend-demo-v1
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name: app
+        image: lailemon/backend-demo:v0.0.1
+        imagePullPolicy: IfNotPresent
+        args: ["--config", "/backend-demo/conf.yml"]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        ports:
+        - containerPort:  8000
+          name: http
+        volumeMounts:
+        - name: config
+          mountPath: /backend-demo
+      volumes:
+        - name: config
+          configMap:
+            name: backend-demo-v1
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend-demo-v1
+spec:
+  selector:
+    app: backend-demo-v1
+  type: LoadBalancer
+  ports:
+  - name: http
+    port:  8000
+    targetPort:  8000

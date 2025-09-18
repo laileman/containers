@@ -1,0 +1,58 @@
+admin:
+  access_log_path: /tmp/admin_access.log
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9901  # 修复原配置多余的 "%" 符号
+
+# 静态资源配置：定义监听端口、路由规则、后端集群
+static_resources:
+  # 1. 监听配置：Envoy 对外暴露的端口（客户端请求需发送到该端口）
+  listeners:
+    - name: listener_0  # 监听名称（自定义，唯一即可）
+      address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: 80  # 对外服务端口（通常用 80 或 443，此处以 80 为例）
+      filter_chains:
+        - filters:
+            # HTTP 过滤器：处理 HTTP 请求并转发到路由
+            - name: envoy.filters.network.http_connection_manager
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                stat_prefix: ingress_http
+                # 路由配置：关联下面定义的路由规则
+                route_config:
+                  name: local_route
+                  virtual_hosts:
+                    # 虚拟主机：匹配域名并配置路由
+                    - name: argo_demo_vhost
+                      domains: ["argo-demo.demo"]  # 要匹配的域名（支持通配符，如 "*.demo"）
+                      routes:
+                        - match:
+                            prefix: "/"  # 匹配该域名下的所有路径（/ 表示全部）
+                          route:
+                            # 转发到下面定义的集群（后端服务）
+                            cluster: argo_demo_cluster
+                # HTTP 响应配置（默认即可）
+                http_filters:
+                  - name: envoy.filters.http.router
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  # 2. 集群配置：定义后端服务地址（要转发到的目标）
+  clusters:
+    - name: argo_demo_cluster  # 集群名称（需与路由中 cluster 字段一致）
+      connect_timeout: 0.25s  # 连接后端的超时时间
+      type: STRICT_DNS  # 集群类型（STRICT_DNS 适用于固定 IP 或 DNS 解析的后端）
+      lb_policy: ROUND_ROBIN  # 负载均衡策略（ROUND_ROBIN 为轮询，单后端时无影响）
+      load_assignment:
+        cluster_name: argo_demo_cluster
+        endpoints:
+          - lb_endpoints:
+              # 后端服务地址和端口
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: 192.168.100.101  # 目标 IP
+                      port_value: 2746  # 目标端口
