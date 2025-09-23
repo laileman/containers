@@ -9,6 +9,12 @@ docker-compose/*/data/*
 */docker-compose/*/data/*
 */docker-compose/*/logs/*
 */docker-compose/*/tmp/*
+docker-compose/*/logs/*
+docker-compose/*/tmp/*
+docker-compose/*/*/tmp/*
+docker-compose/*/*/*.log
+docker-compose/*/*/*/*.log
+
 .venv
 */.venv
 */*/.venv
