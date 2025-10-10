@@ -21,6 +21,7 @@ services:
       # - ./nginx/ssl:/etc/nginx/ssl
       # # 挂载日志目录
       - ./logs:/var/log/nginx
+      - ./ssl:/etc/nginx/ssl
     # 网络设置（可选）
     networks:
       local:

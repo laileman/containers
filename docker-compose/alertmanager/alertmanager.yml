@@ -15,12 +15,12 @@ route:
 receivers:
   - name: 'feishu-basic'
     webhook_configs:
-      - url: ''
+      - url: 'https://infra-bot.lastwar.com/lastwar-infra-container?group=leman1&group=leman0'
         send_resolved: true
         http_config:
           authorization: 
             type: 'api-key'
-            credentials: 'xxxxxx'
+            credentials: 'fseefPyjxza47O5lD4kFi68SzP3xC5ej9I9OplCZ'
     
         
 

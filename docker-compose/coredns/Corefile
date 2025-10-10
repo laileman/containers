@@ -29,3 +29,11 @@ cluster.:53 {
         reload
         cache 30
 }
+nginx.local.:53 {
+        file /nginx.local.zone
+        log
+        errors
+        reload
+        cache 30
+}
+

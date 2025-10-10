@@ -1,0 +1,15 @@
+services:
+    allinssl:
+        image: 'allinssl/allinssl:latest'
+        environment:
+            - ALLINSSL_URL=allinssl
+            - ALLINSSL_PWD=allinssldocker
+            - ALLINSSL_USER=allinssl
+        volumes:
+            - './data:/www/allinssl/data'
+        ports:
+            - '7979:8888'
+        container_name: allinssl
+        tty: true
+        stdin_open: true
+

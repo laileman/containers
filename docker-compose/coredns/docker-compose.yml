@@ -10,6 +10,7 @@ services:
     - ./Corefile:/Corefile
     - ./local.zone:/local.zone
     - ./cluster.zone:/cluster.zone
+    - ./nginx.local.zone:/nginx.local.zone
     command: -conf /Corefile
     networks:
       local:

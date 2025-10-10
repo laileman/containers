@@ -28,3 +28,9 @@ scrape_configs:
       - refresh_interval: 10s
         files:
         - files/alertmanager.yml
+        
+  - job_name: node-exporter
+    file_sd_configs:
+      - refresh_interval: 10s
+        files:
+        - files/node-exporter.yml

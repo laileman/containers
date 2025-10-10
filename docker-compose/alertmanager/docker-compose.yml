@@ -1,5 +1,5 @@
 services:
-  prometheus:
+  alertmanager:
     container_name: alertmanager
     image: prom/alertmanager
     # ports:
